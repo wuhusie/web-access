@@ -2,19 +2,31 @@
 name: web-access
 license: MIT
 description:
-  所有联网操作必须通过此 skill 处理，包括：搜索、网页抓取、登录后操作、网络交互等。
-  触发场景：用户要求搜索信息、查看网页内容、访问需要登录的网站、操作网页界面、抓取社交媒体内容（小红书、微博、推特等）、读取动态渲染页面、以及任何需要真实浏览器环境的网络任务。
+  通过用户日常 Chrome/Edge 登录态提供底层 CDP 浏览器自动化，并作为 arxiv-translator 与 xiaohongshu-scraper 的共享运行时。仅在调用这些依赖 skill、用户明确指定 web-access，或官方浏览器无法完成任务时使用；普通联网搜索不触发。
 metadata:
   author: 一泽Eze
-  version: "2.5.4"
-  source: https://github.com/eze-is/web-access
+  version: "2.5.4-kane.1"
+  source: https://github.com/wuhusie/web-access
+  upstream: https://github.com/eze-is/web-access
 ---
 
 # web-access Skill
 
+## 使用边界
+
+仅在以下情况启用本 skill：
+
+- `arxiv-translator` 或 `xiaohongshu-scraper` 明确调用其 CDP 运行时；
+- 用户明确要求使用 `web-access` 或操作日常 Chrome/Edge 登录态；
+- 官方 Web Search、`@Browser`、`@Chrome` 或专用插件无法完成所需的底层浏览器操作。
+
+普通公开信息检索、已知网页读取和可由专用插件完成的任务不得仅因“需要联网”而触发本 skill。优先使用官方 Web Search、浏览器能力或服务专用工具。
+
+本地依赖关系、fork 和上游同步方式见 [references/local-maintenance.md](references/local-maintenance.md)。
+
 ## 前置检查
 
-在开始联网操作前，先检查 CDP 模式可用性：
+确定任务确实需要 CDP 模式后，再检查其可用性：
 
 ```bash
 node "/Users/kane/.agents/skills/web-access/scripts/check-deps.mjs"
@@ -271,3 +283,4 @@ updated: 2026-03-19
 |------|---------|
 | `references/cdp-api.md` | 需要 CDP API 详细参考、JS 提取模式、错误处理时 |
 | `references/site-patterns/{domain}.md` | 确定目标网站后，读取对应站点经验 |
+| `references/local-maintenance.md` | 维护本地 fork、同步上游或检查依赖关系时 |

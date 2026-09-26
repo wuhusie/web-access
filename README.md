@@ -27,6 +27,8 @@
 
 AI Agent 原本的联网能力（WebSearch、WebFetch）缺少调度策略和浏览器自动化能力。这个 Agent Skill 补上的是：**联网策略 + CDP 浏览器操作 + 站点经验积累**。兼容所有支持 SKILL.md 的 Agent（Codex、Cursor、Gemini CLI 等）。
 
+> 本分支是 Codex 专用维护 fork。普通联网优先使用 Codex 官方 Web Search、`@Browser`、`@Chrome` 或专用插件；本 skill 仅用于依赖它的 `arxiv-translator`、`xiaohongshu-scraper`，或明确需要日常浏览器登录态和底层 CDP 的任务。上游同步方法见 [`references/local-maintenance.md`](references/local-maintenance.md)。
+
 > 推荐必读：[Web Access：一个 Skill，拉满 Agent 联网和浏览器能力](https://mp.weixin.qq.com/s/rps5YVB6TchT9npAaIWKCw) ，完整介绍了 Web-Access Skill 的开发细节与 Agent Skill 设计哲学，帮助你也能写出类似通用、高上限的 Skill
 
 ---
