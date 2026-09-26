@@ -25,7 +25,7 @@
   <a href="https://web-access.eze.is">🌐 官网</a> · <a href="https://mp.weixin.qq.com/s/rps5YVB6TchT9npAaIWKCw">📖 设计详解</a> · <a href="#安装">⚡ 快速安装</a>
 </p>
 
-AI Agent 原本的联网能力（WebSearch、WebFetch）缺少调度策略和浏览器自动化能力。这个 Agent Skill 补上的是：**联网策略 + CDP 浏览器操作 + 站点经验积累**。兼容所有支持 SKILL.md 的 Agent（Claude Code、Cursor、Gemini CLI、Codex CLI 等）。
+AI Agent 原本的联网能力（WebSearch、WebFetch）缺少调度策略和浏览器自动化能力。这个 Agent Skill 补上的是：**联网策略 + CDP 浏览器操作 + 站点经验积累**。兼容所有支持 SKILL.md 的 Agent（Codex、Cursor、Gemini CLI 等）。
 
 > 推荐必读：[Web Access：一个 Skill，拉满 Agent 联网和浏览器能力](https://mp.weixin.qq.com/s/rps5YVB6TchT9npAaIWKCw) ，完整介绍了 Web-Access Skill 的开发细节与 Agent Skill 设计哲学，帮助你也能写出类似通用、高上限的 Skill
 
@@ -63,7 +63,7 @@ AI Agent 原本的联网能力（WebSearch、WebFetch）缺少调度策略和浏
 
 <details><summary>v2.4.3 更新</summary>
 
-- **修复 CLAUDE_SKILL_DIR 路径问题** — bash 代码块改用 `${CLAUDE_SKILL_DIR}` 字符串替换语法，修复 Windows Git Bash 路径转换错误和变量未设置问题（#47 #46）
+- **修复 CODEX_WEB_ACCESS_ROOT 路径问题** — bash 代码块改用 `/Users/kane/.agents/skills/web-access` 字符串替换语法，修复 Windows Git Bash 路径转换错误和变量未设置问题（#47 #46）
 - **站点经验列表合并到前置检查** — 启动检查通过后自动输出已有站点经验列表，移除不可靠的 `!` 内联注入
 </details>
 
@@ -103,17 +103,10 @@ npx skills add eze-is/web-access
 帮我安装这个 skill：https://github.com/eze-is/web-access
 ```
 
-**方式三：Plugin 安装（Claude Code）**
+**方式三：手动**
 
 ```bash
-claude plugin marketplace add https://github.com/eze-is/web-access
-claude plugin install web-access@web-access --scope user
-```
-
-**方式四：手动**
-
-```bash
-git clone https://github.com/eze-is/web-access ~/.claude/skills/web-access
+git clone https://github.com/eze-is/web-access ~/.agents/skills/web-access
 ```
 
 ## 前置配置（CDP 模式）
@@ -127,7 +120,7 @@ CDP 模式需要 **Node.js 22+** 和浏览器（Chrome / Edge）开启远程调�
 
 ### 浏览器偏好（config.env）
 
-skill 长期偏好保存在 `${CLAUDE_SKILL_DIR}/config.env`（首次运行自动从 `config.env.template` 创建，gitignored）：
+skill 长期偏好保存在 `/Users/kane/.agents/skills/web-access/config.env`（首次运行自动从 `config.env.template` 创建，gitignored）：
 
 ```bash
 # 留空 = 每次启动都询问偏好；设值 = 固定使用该浏览器
@@ -139,21 +132,21 @@ WEB_ACCESS_BROWSER=edge
 **临时用别的浏览器**（不修改 config.env）：
 
 ```bash
-node "${CLAUDE_SKILL_DIR}/scripts/check-deps.mjs" --browser chrome
+node "/Users/kane/.agents/skills/web-access/scripts/check-deps.mjs" --browser chrome
 ```
 
 **切换浏览器**（proxy 已连接旧的）：
 
 ```bash
-pkill -f cdp-proxy.mjs && node "${CLAUDE_SKILL_DIR}/scripts/check-deps.mjs"
+pkill -f cdp-proxy.mjs && node "/Users/kane/.agents/skills/web-access/scripts/check-deps.mjs"
 ```
 
 环境检查（Agent 运行时会自动完成前置检查，无需手动执行）：
 
 ```bash
-node "${CLAUDE_SKILL_DIR}/scripts/check-deps.mjs"
-# $CLAUDE_SKILL_DIR 是 skill 加载时自动设置的环境变量
-# 手动运行请替换为实际路径，如 ~/.claude/skills/web-access
+node "/Users/kane/.agents/skills/web-access/scripts/check-deps.mjs"
+# /Users/kane/.agents/skills/web-access 是 skill 加载时自动设置的环境变量
+# 手动运行请替换为实际路径，如 ~/.agents/skills/web-access
 ```
 
 ## CDP Proxy API
@@ -162,7 +155,7 @@ Proxy 通过 WebSocket 直连浏览器（兼容 `chrome://inspect` / `edge://ins
 
 ```bash
 # 启动（Agent 会自动管理 Proxy 生命周期，无需手动启动）
-node "${CLAUDE_SKILL_DIR}/scripts/cdp-proxy.mjs" &
+node "/Users/kane/.agents/skills/web-access/scripts/cdp-proxy.mjs" &
 
 # 页面操作
 curl -s -X POST --data-raw 'https://example.com' http://localhost:3456/new  # 新建 tab（v2.5.3 起 URL 走 POST body）

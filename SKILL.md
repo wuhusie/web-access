@@ -1,13 +1,13 @@
 ---
 name: web-access
 license: MIT
-github: https://github.com/eze-is/web-access
 description:
   所有联网操作必须通过此 skill 处理，包括：搜索、网页抓取、登录后操作、网络交互等。
   触发场景：用户要求搜索信息、查看网页内容、访问需要登录的网站、操作网页界面、抓取社交媒体内容（小红书、微博、推特等）、读取动态渲染页面、以及任何需要真实浏览器环境的网络任务。
 metadata:
   author: 一泽Eze
   version: "2.5.4"
+  source: https://github.com/eze-is/web-access
 ---
 
 # web-access Skill
@@ -17,14 +17,14 @@ metadata:
 在开始联网操作前，先检查 CDP 模式可用性：
 
 ```bash
-node "${CLAUDE_SKILL_DIR}/scripts/check-deps.mjs"
+node "/Users/kane/.agents/skills/web-access/scripts/check-deps.mjs"
 ```
 
 **Node.js 22+** 必需（使用原生 WebSocket）。
 
 按脚本输出处理：
 - `exit 0` → 继续
-- `exit 2` → 需询问用户偏好，写入 `${CLAUDE_SKILL_DIR}/config.env` 的 `WEB_ACCESS_BROWSER`
+- `exit 2` → 需询问用户偏好，写入 `/Users/kane/.agents/skills/web-access/config.env` 的 `WEB_ACCESS_BROWSER`
 - `exit 1` → 按 stdout 错误信息处理。若提示包含「Agent 处理顺序」，按其步骤执行（如先用系统命令打开浏览器后重跑），自动可解则不打扰用户；仍失败再向用户求助
 
 支持参数 `--browser <chrome|edge>` 表达本次临时覆盖（不写 config.env）。
@@ -88,7 +88,7 @@ node "${CLAUDE_SKILL_DIR}/scripts/check-deps.mjs"
 用户指向**本人访问过的页面**（"我之前看的那个讲 X 的文章"、"上次打开过的 XX 面板"）或**组织内部系统**（"我们的 XX 平台"、"公司那个 YY 系统"等公网搜不到的目标）时，检索本地浏览器（Chrome / Edge）书签/历史：
 
 ```bash
-node "${CLAUDE_SKILL_DIR}/scripts/find-url.mjs" [关键词...] [--only bookmarks|history] [--browser chrome|edge] [--limit N] [--since 1d|7h|YYYY-MM-DD] [--sort recent|visits]
+node "/Users/kane/.agents/skills/web-access/scripts/find-url.mjs" [关键词...] [--only bookmarks|history] [--browser chrome|edge] [--limit N] [--since 1d|7h|YYYY-MM-DD] [--sort recent|visits]
 ```
 
 关键词空格分词、多词 AND，匹配 title + url（可省略）；默认遍历所有已安装的 Chromium 系浏览器（Chrome、Edge），`--browser` 限定单一来源；`--since` / `--sort` 仅作用于历史；默认按最近访问倒序，`--sort visits` 按访问次数排序（适合"高频访问的网站"这类场景）。
@@ -112,7 +112,7 @@ node "${CLAUDE_SKILL_DIR}/scripts/find-url.mjs" [关键词...] [--only bookmarks
 ### 启动
 
 ```bash
-node "${CLAUDE_SKILL_DIR}/scripts/check-deps.mjs"
+node "/Users/kane/.agents/skills/web-access/scripts/check-deps.mjs"
 ```
 
 脚本会依次检查 Node.js、浏览器调试端口，并确保 Proxy 已连接（未运行则自动启动并等待）。Proxy 启动后持续运行。
