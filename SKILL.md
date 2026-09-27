@@ -5,7 +5,7 @@ description:
   通过用户日常 Chrome/Edge 登录态提供底层 CDP 浏览器自动化，并作为 arxiv-translator 与 xiaohongshu-scraper 的共享运行时。仅在调用这些依赖 skill、用户明确指定 web-access，或官方浏览器无法完成任务时使用；普通联网搜索不触发。
 metadata:
   author: 一泽Eze
-  version: "2.5.4-kane.1"
+  version: "2.5.4-kane.2"
   source: https://github.com/wuhusie/web-access
   upstream: https://github.com/eze-is/web-access
 ---

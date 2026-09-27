@@ -1,5 +1,8 @@
 .DS_Store
 *.log
 references/site-patterns/*.md
+!references/site-patterns/bilibili.com.md
+!references/site-patterns/waimai.meituan.com.md
+!references/site-patterns/xiaohongshu.com.md
 config.env
 .claude/

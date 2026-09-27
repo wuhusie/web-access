@@ -23,6 +23,19 @@ The following local skills require this skill's CDP proxy:
 Removing or incompatibly changing the proxy requires end-to-end verification of
 both consumers.
 
+## Tracked local site knowledge
+
+The personal fork intentionally tracks these Codex-specific site patterns even
+though upstream ignores `references/site-patterns/*.md`:
+
+- `references/site-patterns/bilibili.com.md`
+- `references/site-patterns/waimai.meituan.com.md`
+- `references/site-patterns/xiaohongshu.com.md`
+
+The explicit negations in `.gitignore` protect these files from disappearing on
+a fresh clone. Review their `updated` dates before use because site behavior and
+selectors can drift.
+
 ## Updating from upstream
 
 Run from this repository:
